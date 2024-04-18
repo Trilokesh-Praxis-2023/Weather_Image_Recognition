@@ -1,12 +1,21 @@
+! pip install gdown
+
 import streamlit as st
 import tensorflow as tf
 from PIL import Image
 import numpy as np
 import os
 import random
+import gdown
+
+# Download the model file from Google Drive
+model_url = 'https://drive.google.com/uc?id=1H2leUE3T_XOgpJ6j-LMeRZvmj25xbzqA'
+model_path = 'Trilokesh_Weather_Model.h5'
+if not os.path.exists(model_path):
+    gdown.download(model_url, model_path, quiet=False)
 
 # Load the Keras model
-loaded_model = tf.keras.models.load_model('Trilokesh_Weather_Model.h5', compile=False)
+loaded_model = tf.keras.models.load_model(model_path, compile=False)
 
 # Function to preprocess the image
 def preprocess_image(image):
@@ -19,6 +28,16 @@ def preprocess_image(image):
 # Define the classes
 classes = ['dew', 'fogsmog', 'frost', 'glaze', 'hail', 'lightning', 'rain', 'rainbow', 'rime', 'sandstorm', 'snow']
 
+# Function to display random images
+def display_random_images(num_images=3):
+    st.subheader("Random Images")
+    image_folder = "random_images"
+    image_files = os.listdir(image_folder)
+    random.shuffle(image_files)
+    for i in range(num_images):
+        image_path = os.path.join(image_folder, image_files[i])
+        image = Image.open(image_path)
+        st.image(image, caption=f"Random Image {i+1}", use_column_width=True)
 
 # Streamlit app
 def main():
@@ -41,7 +60,8 @@ def main():
 
         st.write("Prediction:", predicted_class)
 
-
+    # Display random images
+    display_random_images()
 
 # Add some styling
 st.markdown(
