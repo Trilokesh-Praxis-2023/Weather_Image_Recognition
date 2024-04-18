@@ -1,5 +1,5 @@
 import streamlit as st
-
+print("Welcome to my app")
 try:
     # Install required packages
     st.write("Installing required packages...")
