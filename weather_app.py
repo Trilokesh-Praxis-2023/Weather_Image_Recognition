@@ -5,16 +5,7 @@ import os
 # Install required packages
 st.write("Welcome")
 st.write("Installing required packages...")
-os.system("pip install opencv-contrib-python-headless")
-os.system("pip install tensorflow-cpu==1.15")
-os.system("pip install streamlit==0.65.2")
-os.system("pip install numpy")
-os.system("pip install pandas")
-os.system("pip install pillow")
-os.system("pip install keras==2.3.0")
-os.system("pip install pathlib")
-os.system("pip install matplotlib")
-os.system("pip install python-resize-image")
+os.system("pip install tensorflow")
 
 import tensorflow as tf
 from PIL import Image
