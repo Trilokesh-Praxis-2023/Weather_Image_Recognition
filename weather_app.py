@@ -1,3 +1,5 @@
+# Save this code in a file named weather_app.py
+
 import streamlit as st
 
 try:
@@ -6,14 +8,12 @@ try:
     import numpy as np
     import os
 
-    # Install gdown package
-    os.system("pip install gdown")
+    # Install TensorFlow
+    st.write("Installing TensorFlow...")
+    os.system("pip install tensorflow")
 
-    # Download the model file from Google Drive
-    os.system("gdown --id 1H2leUE3T_XOgpJ6j-LMeRZvmj25xbzqA -O Trilokesh_Weather_Model.h5")
-
-    # Load the Keras model
-    loaded_model = tf.keras.models.load_model('Trilokesh_Weather_Model.h5', compile=False)
+    # After installing TensorFlow, import again
+    import tensorflow as tf
 
     # Function to preprocess the image
     def preprocess_image(image):
@@ -25,17 +25,6 @@ try:
 
     # Define the classes
     classes = ['dew', 'fogsmog', 'frost', 'glaze', 'hail', 'lightning', 'rain', 'rainbow', 'rime', 'sandstorm', 'snow']
-
-    # Function to display random images
-    def display_random_images(num_images=3):
-        st.subheader("Random Images")
-        image_folder = "random_images"
-        image_files = os.listdir(image_folder)
-        random.shuffle(image_files)
-        for i in range(num_images):
-            image_path = os.path.join(image_folder, image_files[i])
-            image = Image.open(image_path)
-            st.image(image, caption=f"Random Image {i+1}", use_column_width=True)
 
     # Streamlit app
     def main():
@@ -52,39 +41,20 @@ try:
             # Preprocess the image
             img_array = preprocess_image(image)
 
+            # Load the Keras model
+            st.write("Loading the model...")
+            model_path = 'Trilokesh_Weather_Model.h5'
+            if not os.path.exists(model_path):
+                st.write("Downloading the model file...")
+                os.system("gdown --id 1H2leUE3T_XOgpJ6j-LMeRZvmj25xbzqA -O Trilokesh_Weather_Model.h5")
+            loaded_model = tf.keras.models.load_model(model_path, compile=False)
+
             # Make prediction
+            st.write("Making prediction...")
             prediction = loaded_model.predict(img_array)
             predicted_class = classes[np.argmax(prediction)]
 
             st.write("Prediction:", predicted_class)
-
-        # Display random images
-        display_random_images()
-
-    # Add some styling
-    st.markdown(
-    """
-    <style>
-        .reportview-container {
-            background: #f0f2f6;
-        }
-        .sidebar .sidebar-content {
-            background: #d1d8e0;
-        }
-        .Widget>label {
-            color: #111;
-            font-weight: bold;
-        }
-        .st-bqplot svg {
-            color: #111;
-        }
-        .st-bqplot .bqplot > g > g > text {
-            fill: #111;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True
-    )
 
     if __name__ == '__main__':
         main()
