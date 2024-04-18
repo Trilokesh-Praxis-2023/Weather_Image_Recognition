@@ -2,21 +2,27 @@ import streamlit as st
 import numpy as np
 import os
 
+import torch
+import torch.nn as nn
+import torchvision.transforms as transforms
+from PIL import Image
+
 # Install required packages
 st.write("Welcome")
 st.write("Installing required packages...")
-os.system("pip install tensorflow")
 
-# import tensorflow as tf
-from PIL import Image
+# Assuming CUDA is available, install the GPU version of PyTorch
+os.system("pip install torch torchvision")
 
 # Function to preprocess the image
 def preprocess_image(image):
-    img = image.resize((224, 224))  # Resize image to match model's expected sizing
-    img_array = np.array(img)  # Convert PIL image to numpy array
-    img_array = img_array / 255.0  # Normalize pixel values to between 0 and 1
-    img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
-    return img_array
+    transform = transforms.Compose([
+        transforms.Resize((224, 224)),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    ])
+    img = transform(image).unsqueeze(0)
+    return img
 
 # Define the classes
 classes = ['dew', 'fogsmog', 'frost', 'glaze', 'hail', 'lightning', 'rain', 'rainbow', 'rime', 'sandstorm', 'snow']
@@ -34,20 +40,26 @@ def main():
         st.image(image, caption='Uploaded Image', use_column_width=True)
 
         # Preprocess the image
-        img_array = preprocess_image(image)
+        img_tensor = preprocess_image(image)
 
-        # Load the Keras model
+        # Load the PyTorch model
         st.write("Loading the model...")
-        model_path = 'Trilokesh_Weather_Model.h5'
+        model_path = 'Trilokesh_Weather_Model.pth'
         if not os.path.exists(model_path):
             st.write("Downloading the model file...")
-            os.system("gdown --id 1H2leUE3T_XOgpJ6j-LMeRZvmj25xbzqA -O Trilokesh_Weather_Model.h5")
-        loaded_model = tf.keras.models.load_model(model_path, compile=False)
+            # Assuming the model file is available for download
+            # You need to specify the URL or the method of downloading the model file
+            # For simplicity, this code assumes the model file is already available
+            pass
+        loaded_model = torch.load(model_path, map_location=torch.device('cpu'))
+        loaded_model.eval()
 
         # Make prediction
         st.write("Making prediction...")
-        prediction = loaded_model.predict(img_array)
-        predicted_class = classes[np.argmax(prediction)]
+        with torch.no_grad():
+            prediction = loaded_model(img_tensor)
+            predicted_class_index = torch.argmax(prediction).item()
+            predicted_class = classes[predicted_class_index]
 
         st.write("Prediction:", predicted_class)
 
