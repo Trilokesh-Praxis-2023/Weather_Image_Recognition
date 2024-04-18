@@ -2,6 +2,7 @@ import streamlit as st
 
 try:
     # Install required packages
+    st.write("Welcome")
     st.write("Installing required packages...")
     import os
     os.system("pip install pillow numpy streamlit gdown tensorflow")
@@ -53,7 +54,6 @@ try:
             st.write("Prediction:", predicted_class)
 
     if __name__ == '__main__':
-        print("Welcome to my app")
         main()
 
 except ImportError as e:
