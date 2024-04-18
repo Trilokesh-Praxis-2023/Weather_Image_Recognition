@@ -3,17 +3,15 @@
 import streamlit as st
 
 try:
+    # Install required packages
+    st.write("Installing required packages...")
+    import os
+    os.system("pip install pillow numpy streamlit")
+
     import tensorflow as tf
     from PIL import Image
     import numpy as np
     import os
-
-    # Install TensorFlow
-    st.write("Installing TensorFlow...")
-    os.system("pip install tensorflow")
-
-    # After installing TensorFlow, import again
-    import tensorflow as tf
 
     # Function to preprocess the image
     def preprocess_image(image):
@@ -60,4 +58,4 @@ try:
         main()
 
 except ImportError:
-    st.error("TensorFlow is not available. Please make sure TensorFlow is installed in your environment.")
+    st.error("One or more required packages are not available. Please make sure they are installed in your environment.")
