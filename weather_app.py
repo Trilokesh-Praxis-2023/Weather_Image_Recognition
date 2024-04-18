@@ -1,21 +1,19 @@
-! pip install gdown
-
 import streamlit as st
 import tensorflow as tf
 from PIL import Image
 import numpy as np
 import os
-import random
-import gdown
+
+# Install gdown package
+os.system("pip install gdown")
 
 # Download the model file from Google Drive
-model_url = 'https://drive.google.com/uc?id=1H2leUE3T_XOgpJ6j-LMeRZvmj25xbzqA'
-model_path = 'Trilokesh_Weather_Model.h5'
-if not os.path.exists(model_path):
-    gdown.download(model_url, model_path, quiet=False)
+os.system("gdown --id 1H2leUE3T_XOgpJ6j-LMeRZvmj25xbzqA -O Trilokesh_Weather_Model.h5")
 
 # Load the Keras model
-loaded_model = tf.keras.models.load_model(model_path, compile=False)
+loaded_model = tf.keras.models.load_model('Trilokesh_Weather_Model.h5', compile=False)
+
+# Function to preprocess the image
 
 # Function to preprocess the image
 def preprocess_image(image):
