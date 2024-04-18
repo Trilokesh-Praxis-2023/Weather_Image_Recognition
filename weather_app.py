@@ -5,7 +5,7 @@ import os
 # Install required packages
 st.write("Welcome")
 st.write("Installing required packages...")
-os.system("pip install -r requirements.txtw")
+os.system("pip install -r requirements.txt")
 
 import tensorflow as tf
 from PIL import Image
