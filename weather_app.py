@@ -1,12 +1,10 @@
-# Save this code in a file named weather_app.py
-
 import streamlit as st
 
 try:
     # Install required packages
     st.write("Installing required packages...")
     import os
-    os.system("pip install pillow numpy streamlit")
+    os.system("pip install pillow numpy streamlit gdown")
 
     import tensorflow as tf
     from PIL import Image
@@ -57,5 +55,5 @@ try:
     if __name__ == '__main__':
         main()
 
-except ImportError:
-    st.error("One or more required packages are not available. Please make sure they are installed in your environment.")
+except ImportError as e:
+    st.error(f"ImportError: {e}")
