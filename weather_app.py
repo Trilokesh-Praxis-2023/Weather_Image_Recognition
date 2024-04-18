@@ -10,6 +10,38 @@ os.system("pip install tensorflow")
 import tensorflow as tf
 from PIL import Image
 
+import subprocess
+
+def install_package(package_name):
+    try:
+        subprocess.check_call(['pip', 'install', package_name])
+    except subprocess.CalledProcessError as e:
+        print(f"Error occurred while installing {package_name}: {e}")
+    except Exception as e:
+        print(f"Unexpected error occurred: {e}")
+
+if __name__ == "__main__":
+    packages = [
+        "opencv-contrib-python-headless",
+        "tensorflow-cpu==1.15",
+        "streamlit==0.65.2",
+        "numpy",
+        "pandas",
+        "pillow",
+        "keras==2.3.0",
+        "pathlib",
+        "matplotlib",
+        "python-resize-image"
+    ]
+
+    print("Installing required packages...")
+
+    for package in packages:
+        install_package(package)
+
+    print("Installation complete.")
+
+
 # Function to preprocess the image
 def preprocess_image(image):
     img = image.resize((224, 224))  # Resize image to match model's expected sizing
