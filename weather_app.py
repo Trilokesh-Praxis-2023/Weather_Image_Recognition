@@ -5,7 +5,7 @@ import os
 # Install required packages
 st.write("Welcome")
 st.write("Installing required packages...")
-os.system("pip install pillow numpy streamlit gdown tensorflow")
+os.system("pip install pillow numpy streamlit gdown tensorflow==1.15.4")
 
 import tensorflow as tf
 from PIL import Image
