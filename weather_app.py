@@ -1,5 +1,5 @@
 import streamlit as st
-print("Welcome to my app")
+
 try:
     # Install required packages
     st.write("Installing required packages...")
@@ -53,6 +53,7 @@ try:
             st.write("Prediction:", predicted_class)
 
     if __name__ == '__main__':
+        print("Welcome to my app")
         main()
 
 except ImportError as e:
