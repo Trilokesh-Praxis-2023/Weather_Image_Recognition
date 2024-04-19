@@ -1,30 +1,24 @@
-import subprocess
-import sys
+import streamlit as st
+import numpy as np
+import os
 
+import tensorflow as tf
+from PIL import Image
+from transformers import TFAutoModelForSequenceClassification, AutoTokenizer
 
+# Function to preprocess the image
+def preprocess_image(image):
+    img = image.resize((224, 224))  # Resize image to match model's expected sizing
+    img_array = np.array(img)  # Convert PIL image to numpy array
+    img_array = img_array / 255.0  # Normalize pixel values to between 0 and 1
+    img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
+    return img_array
+
+# Define the classes
+classes = ['dew', 'fogsmog', 'frost', 'glaze', 'hail', 'lightning', 'rain', 'rainbow', 'rime', 'sandstorm', 'snow']
+
+# Streamlit app
 def main():
-    import streamlit as st
-    import numpy as np
-    import os
-    import tensorflow as tf
-    from PIL import Image
-
-    # Install required packages
-    st.write("Welcome")
-    st.write("Installing required packages...")
-
-    # Function to preprocess the image
-    def preprocess_image(image):
-        img = image.resize((224, 224))  # Resize image to match model's expected sizing
-        img_array = np.array(img)  # Convert PIL image to numpy array
-        img_array = img_array / 255.0  # Normalize pixel values to between 0 and 1
-        img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
-        return img_array
-
-    # Define the classes
-    classes = ['dew', 'fogsmog', 'frost', 'glaze', 'hail', 'lightning', 'rain', 'rainbow', 'rime', 'sandstorm', 'snow']
-
-    # Streamlit app
     st.title("Weather Image Classifier")
     st.write("This app classifies weather images into categories: dew, fog/smog, frost, glaze, hail, lightning, rain, rainbow, rime, sandstorm, snow")
 
@@ -38,12 +32,9 @@ def main():
         # Preprocess the image
         img_array = preprocess_image(image)
 
-        # Load the Keras model
+        # Load the model
         st.write("Loading the model...")
-        model_path = 'Trilokesh_Weather_Model.h5'
-        if not os.path.exists(model_path):
-            st.write("Downloading the model file...")
-            os.system("gdown --id 1H2leUE3T_XOgpJ6j-LMeRZvmj25xbzqA -O Trilokesh_Weather_Model.h5")
+        model_path = "/path/to/Trilokesh_Weather_Model.h5"  # Update this path
         loaded_model = tf.keras.models.load_model(model_path, compile=False)
 
         # Make prediction
