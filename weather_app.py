@@ -1,6 +1,7 @@
 import streamlit as st
 import numpy as np
 import os
+import urllib.request
 
 import tensorflow as tf
 from PIL import Image
@@ -32,14 +33,15 @@ def main():
         # Preprocess the image
         img_array = preprocess_image(image)
 
-        # Load the model
+        # Load the model from Hugging Face model hub
         st.write("Loading the model...")
-        model_path = "/path/to/Trilokesh_Weather_Model.h5"  # Update this path
-        loaded_model = tf.keras.models.load_model(model_path, compile=False)
+        model_name = "Trilokesh_Weather_Model.h5"  # Replace with your model name from the model hub
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
 
         # Make prediction
         st.write("Making prediction...")
-        prediction = loaded_model.predict(img_array)
+        prediction = model.predict(img_array)
         predicted_class = classes[np.argmax(prediction)]
 
         st.write("Prediction:", predicted_class)
