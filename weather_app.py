@@ -24,6 +24,7 @@ def preprocess_image(image):
 classes = ['dew', 'fogsmog', 'frost', 'glaze', 'hail', 'lightning', 'rain', 'rainbow', 'rime', 'sandstorm', 'snow']
 
 # Streamlit app
+
 def main():
     st.title("Weather Image Classifier")
     st.write("This app classifies weather images into categories: dew, fog/smog, frost, glaze, hail, lightning, rain, rainbow, rime, sandstorm, snow")
