@@ -1,11 +1,6 @@
 import subprocess
 import sys
 
-def install_required_packages():
-    try:
-        subprocess.run([sys.executable, "-m", "pip", "install", "streamlit", "numpy", "Pillow", "tensorflow"])
-    except Exception as e:
-        print(f"An error occurred while installing the required packages: {e}")
 
 def main():
     import streamlit as st
