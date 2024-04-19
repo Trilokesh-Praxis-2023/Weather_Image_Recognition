@@ -12,7 +12,6 @@ def main():
     # Install required packages
     st.write("Welcome")
     st.write("Installing required packages...")
-    install_required_packages()
 
     # Function to preprocess the image
     def preprocess_image(image):
