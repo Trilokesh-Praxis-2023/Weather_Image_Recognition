@@ -1,36 +1,30 @@
+
 import subprocess
-import sys
 
-def install_required_packages():
-    try:
-        subprocess.run([sys.executable, "-m", "pip", "install", "streamlit", "numpy", "Pillow", "tensorflow"])
-    except Exception as e:
-        print(f"An error occurred while installing the required packages: {e}")
+# Install dependencies using setup.py
+print("Installing dependencies...")
+subprocess.call(["python", "setup.py", "install"])
 
+import streamlit as st
+import numpy as np
+import os
+
+import tensorflow as tf
+from PIL import Image
+
+# Function to preprocess the image
+def preprocess_image(image):
+    img = image.resize((224, 224))  # Resize image to match model's expected sizing
+    img_array = np.array(img)  # Convert PIL image to numpy array
+    img_array = img_array / 255.0  # Normalize pixel values to between 0 and 1
+    img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
+    return img_array
+
+# Define the classes
+classes = ['dew', 'fogsmog', 'frost', 'glaze', 'hail', 'lightning', 'rain', 'rainbow', 'rime', 'sandstorm', 'snow']
+
+# Streamlit app
 def main():
-    import streamlit as st
-    import numpy as np
-    import os
-    import tensorflow as tf
-    from PIL import Image
-
-    # Install required packages
-    st.write("Welcome")
-    st.write("Installing required packages...")
-    install_required_packages()
-
-    # Function to preprocess the image
-    def preprocess_image(image):
-        img = image.resize((224, 224))  # Resize image to match model's expected sizing
-        img_array = np.array(img)  # Convert PIL image to numpy array
-        img_array = img_array / 255.0  # Normalize pixel values to between 0 and 1
-        img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
-        return img_array
-
-    # Define the classes
-    classes = ['dew', 'fogsmog', 'frost', 'glaze', 'hail', 'lightning', 'rain', 'rainbow', 'rime', 'sandstorm', 'snow']
-
-    # Streamlit app
     st.title("Weather Image Classifier")
     st.write("This app classifies weather images into categories: dew, fog/smog, frost, glaze, hail, lightning, rain, rainbow, rime, sandstorm, snow")
 
