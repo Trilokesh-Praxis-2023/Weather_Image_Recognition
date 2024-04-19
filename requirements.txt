@@ -1,5 +1,6 @@
 tensorflow
 streamlit
+transformers
 numpy
 pandas
 pillow
