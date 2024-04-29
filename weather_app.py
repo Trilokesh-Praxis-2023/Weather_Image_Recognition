@@ -4,6 +4,7 @@ import tensorflow as tf
 from PIL import Image
 import json
 import gdown
+import sys
 
 # Function to preprocess the image
 def preprocess_image(image):
@@ -19,7 +20,7 @@ classes = ['dew', 'fog/smog', 'frost', 'glaze', 'hail', 'lightning', 'rain', 'ra
 # Download the model configuration file
 model_config_url = 'https://drive.google.com/uc?id=13eVU4Mgnjyw44FQXFND6bB2PR5I0gYUc'
 model_config_path = 'model_config.json'
-gdown.download(model_config_url, model_config_path, quiet=False)
+gdown.download(model_config_url, model_config_path, quiet=True)
 
 # Load the model configuration from the downloaded file
 with open(model_config_path, "r") as json_file:
