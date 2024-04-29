@@ -3,8 +3,6 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 import json
-import gdown
-import sys
 
 # Function to preprocess the image
 def preprocess_image(image):
@@ -17,14 +15,10 @@ def preprocess_image(image):
 # Define the classes
 classes = ['dew', 'fog/smog', 'frost', 'glaze', 'hail', 'lightning', 'rain', 'rainbow', 'rime', 'sandstorm', 'snow']
 
-# Download the model configuration file
-model_config_url = 'https://drive.google.com/uc?id=13eVU4Mgnjyw44FQXFND6bB2PR5I0gYUc'
+# Load the model configuration from the local file
 model_config_path = 'model_config.json'
-gdown.download(model_config_url, model_config_path, quiet=True)
-
-# Load the model configuration from the downloaded file
 with open(model_config_path, "r") as json_file:
-    model_config = json_file.read()
+    model_config = json.load(json_file)
 
 # Create a new model using the loaded configuration
 model = tf.keras.models.model_from_json(model_config)
