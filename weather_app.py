@@ -35,11 +35,11 @@ def main():
             # Preprocess the image
             img_array = preprocess_image(image)
 
-            # Load the tokenizer and model from Hugging Face model hub
+            # Load the tokenizer and model from the cloned model directory
             st.write("Loading the tokenizer and model...")
-            model_name = "trilokesh/Weather"  # Use the model identifier from the Hugging Face model hub
-            tokenizer = AutoTokenizer.from_pretrained(model_name)
-            model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
+            model_dir = "./Trilokesh_Weather_Model"  # Local directory of the cloned model
+            tokenizer = AutoTokenizer.from_pretrained(model_dir)
+            model = TFAutoModelForSequenceClassification.from_pretrained(model_dir)
 
             # Make prediction
             st.write("Making prediction...")
