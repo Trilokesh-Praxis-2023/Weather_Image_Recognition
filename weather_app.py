@@ -1,11 +1,9 @@
 import streamlit as st
 import numpy as np
-import os
-import urllib.request
-
 import tensorflow as tf
 from PIL import Image
-from transformers import TFAutoModelForSequenceClassification, AutoTokenizer
+import json
+import gdown
 
 # Function to preprocess the image
 def preprocess_image(image):
@@ -17,6 +15,21 @@ def preprocess_image(image):
 
 # Define the classes
 classes = ['dew', 'fog/smog', 'frost', 'glaze', 'hail', 'lightning', 'rain', 'rainbow', 'rime', 'sandstorm', 'snow']
+
+# Download the model configuration file
+model_config_url = 'https://drive.google.com/uc?id=13eVU4Mgnjyw44FQXFND6bB2PR5I0gYUc'
+model_config_path = 'model_config.json'
+gdown.download(model_config_url, model_config_path, quiet=False)
+
+# Load the model configuration from the downloaded file
+with open(model_config_path, "r") as json_file:
+    model_config = json.load(json_file)
+
+# Create a new model using the loaded configuration
+model = tf.keras.models.model_from_json(model_config)
+
+# Load the pre-trained weights
+model.load_weights("Trilokesh_Weather_Model.h5")
 
 # Streamlit app
 def main():
@@ -34,13 +47,6 @@ def main():
         if st.button('Make Prediction'):
             # Preprocess the image
             img_array = preprocess_image(image)
-
-            # Load the tokenizer and model from the Hugging Face model hub with authentication token
-            st.write("Loading the tokenizer and model...")
-            model_name = "trilokesh/Weather"  # Use the model identifier from the Hugging Face model hub
-            token = "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"  # Your authentication token
-            tokenizer = AutoTokenizer.from_pretrained(model_name, token=token)
-            model = TFAutoModelForSequenceClassification.from_pretrained(model_name, token=token)
 
             # Make prediction
             st.write("Making prediction...")
