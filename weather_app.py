@@ -16,7 +16,7 @@ def preprocess_image(image):
     return img_array
 
 # Define the classes
-classes = ['dew', 'fogsmog', 'frost', 'glaze', 'hail', 'lightning', 'rain', 'rainbow', 'rime', 'sandstorm', 'snow']
+classes = ['dew', 'fog/smog', 'frost', 'glaze', 'hail', 'lightning', 'rain', 'rainbow', 'rime', 'sandstorm', 'snow']
 
 # Streamlit app
 def main():
@@ -33,18 +33,20 @@ def main():
         # Preprocess the image
         img_array = preprocess_image(image)
 
-        # Load the model from Hugging Face model hub
-        st.write("Loading the model...")
-        model_name = "Trilokesh_Weather_Model.h5"  # Replace with your model name from the model hub
-        tokenizer = AutoTokenizer.from_pretrained(model_name)
-        model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
+        # Button for making prediction
+        if st.button('Make Prediction'):
+            # Load the model from Hugging Face model hub
+            st.write("Loading the model...")
+            model_name = "Trilokesh_Weather_Model.h5"  # Replace with your model name from the model hub
+            tokenizer = AutoTokenizer.from_pretrained(model_name)
+            model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
 
-        # Make prediction
-        st.write("Making prediction...")
-        prediction = model.predict(img_array)
-        predicted_class = classes[np.argmax(prediction)]
+            # Make prediction
+            st.write("Making prediction...")
+            prediction = model.predict(img_array)
+            predicted_class = classes[np.argmax(prediction)]
 
-        st.write("Prediction:", predicted_class)
+            st.write("Prediction:", predicted_class)
 
     # Add animation using mathematical function
     st.subheader("Animation using a mathematical function")
