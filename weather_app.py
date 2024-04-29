@@ -5,7 +5,7 @@ import urllib.request
 
 import tensorflow as tf
 from PIL import Image
-from transformers import TFAutoModelForSequenceClassification, AutoTokenizer
+from transformers import TFAutoModelForSequenceClassification, AutoConfig, AutoTokenizer
 
 # Function to preprocess the image
 def preprocess_image(image):
@@ -35,11 +35,18 @@ def main():
             # Preprocess the image
             img_array = preprocess_image(image)
 
-            # Load the model from Hugging Face model hub
-            st.write("Loading the model...")
+            # Load the model configuration
+            st.write("Loading the model configuration...")
             model_name = "trilokesh/Weather"  # Use the model identifier from the Hugging Face model hub
+            config = AutoConfig.from_pretrained(model_name)
+            
+            # Load the tokenizer
+            st.write("Loading the tokenizer...")
             tokenizer = AutoTokenizer.from_pretrained(model_name)
-            model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
+
+            # Load the model
+            st.write("Loading the model...")
+            model = TFAutoModelForSequenceClassification.from_pretrained(model_name, config=config)
 
             # Make prediction
             st.write("Making prediction...")
