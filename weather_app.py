@@ -30,14 +30,14 @@ def main():
         image = Image.open(uploaded_file)
         st.image(image, caption='Uploaded Image', use_column_width=True)
 
-        # Preprocess the image
-        img_array = preprocess_image(image)
-
         # Button for making prediction
         if st.button('Make Prediction'):
+            # Preprocess the image
+            img_array = preprocess_image(image)
+
             # Load the model from Hugging Face model hub
             st.write("Loading the model...")
-            model_name = "Trilokesh_Weather_Model.h5"  # Replace with your model name from the model hub
+            model_name = "trilokesh/Weather"  # Use the model identifier from the Hugging Face model hub
             tokenizer = AutoTokenizer.from_pretrained(model_name)
             model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
 
