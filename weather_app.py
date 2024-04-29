@@ -37,7 +37,7 @@ def main():
 
             # Load the tokenizer and model from the cloned model directory
             st.write("Loading the tokenizer and model...")
-            model_dir = "./Trilokesh_Weather_Model"  # Local directory of the cloned model
+            model_dir = "Trilokesh_Weather_Model"  # Local directory of the cloned model
             tokenizer = AutoTokenizer.from_pretrained(model_dir)
             model = TFAutoModelForSequenceClassification.from_pretrained(model_dir)
 
