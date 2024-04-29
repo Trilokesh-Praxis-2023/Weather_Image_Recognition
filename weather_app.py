@@ -24,7 +24,7 @@ gdown.download(model_config_url, model_config_path, quiet=True)
 
 # Load the model configuration from the downloaded file
 with open(model_config_path, "r") as json_file:
-    model_config = json.load(json_file)
+    model_config = json_file.read()
 
 # Create a new model using the loaded configuration
 model = tf.keras.models.model_from_json(model_config)
