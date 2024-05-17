@@ -8,11 +8,13 @@ from PIL import Image
 def preprocess_image(image):
     img = image.resize((224, 224))  # Resize image to match model's expected sizing
     img_array = np.array(img)  # Convert PIL image to numpy array
+    if img_array.shape[-1] == 4:  # Check if the image has an alpha channel
+        img_array = img_array[..., :3]  # Drop the alpha channel
     img_array = img_array / 255.0  # Normalize pixel values to between 0 and 1
     img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
     return img_array
 
-# Define the classes
+# Define the classes (assuming 11 classes for demonstration)
 classes = ['dew', 'fog/smog', 'frost', 'glaze', 'hail', 'lightning', 'rain', 'rainbow', 'rime', 'sandstorm', 'snow']
 
 # Load the pretrained model from TensorFlow Hub
@@ -40,7 +42,8 @@ def main():
                 # Make prediction
                 st.write("Making prediction...")
                 prediction = model.predict(img_array)
-                predicted_class = classes[np.argmax(prediction)]
+                predicted_class_idx = np.argmax(prediction[0])  # Get the index of the highest probability
+                predicted_class = classes[predicted_class_idx]
 
                 st.write("Prediction:", predicted_class)
             except Exception as e:
@@ -54,4 +57,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
