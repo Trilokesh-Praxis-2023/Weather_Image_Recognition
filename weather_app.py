@@ -3,7 +3,6 @@ import numpy as np
 import tensorflow as tf
 import tensorflow_hub as hub
 from PIL import Image
-import json
 
 # Function to preprocess the image
 def preprocess_image(image):
@@ -16,8 +15,9 @@ def preprocess_image(image):
 # Define the classes
 classes = ['dew', 'fog/smog', 'frost', 'glaze', 'hail', 'lightning', 'rain', 'rainbow', 'rime', 'sandstorm', 'snow']
 
-# Load a pretrained model from TensorFlow Hub
-model = hub.load("https://tfhub.dev/google/imagenet/mobilenet_v2_100_224/classification/5")
+# Load the pretrained model from TensorFlow Hub
+model_url = "https://tfhub.dev/google/imagenet/mobilenet_v2_100_224/classification/4"
+model = tf.keras.Sequential([hub.KerasLayer(model_url, input_shape=(224, 224, 3))])
 
 # Streamlit app
 def main():
@@ -38,12 +38,12 @@ def main():
 
             # Make prediction
             st.write("Making prediction...")
-            prediction = model(img_array)
-            predicted_class = classes[np.argmax(prediction[0])]
+            prediction = model.predict(img_array)
+            predicted_class = classes[np.argmax(prediction)]
 
             st.write("Prediction:", predicted_class)
 
-    # Add animation using mathematical function
+    # Add animation using a mathematical function
     st.subheader("Animation using a mathematical function")
     x = np.linspace(0, 10, 100)
     y = np.sin(x)
