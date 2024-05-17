@@ -1,8 +1,8 @@
 import streamlit as st
 import numpy as np
 import tensorflow as tf
+import tensorflow_hub as hub
 from PIL import Image
-import json
 
 # Function to preprocess the image
 def preprocess_image(image):
@@ -15,19 +15,10 @@ def preprocess_image(image):
 # Define the classes
 classes = ['dew', 'fog/smog', 'frost', 'glaze', 'hail', 'lightning', 'rain', 'rainbow', 'rime', 'sandstorm', 'snow']
 
-# Load the model configuration from the local file
-model_config_path = 'model_config.json'
-with open(model_config_path, "r") as json_file:
-    model_config = json.load(json_file)
-
-# Convert the dictionary to a JSON string
-model_config_json = json.dumps(model_config)
-
-# Create a new model using the loaded configuration
-model = tf.keras.models.model_from_json(model_config_json)
-
-# Load the pre-trained weights
-model.load_weights("Trilokesh_Weather_Model.h5")
+# Load the pre-trained model from TensorFlow Hub
+model = tf.keras.Sequential([
+    hub.KerasLayer("https://tfhub.dev/tensorflow/efficientnet/b0/classification/1")
+])
 
 # Streamlit app
 def main():
