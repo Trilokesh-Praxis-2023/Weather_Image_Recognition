@@ -1,4 +1,5 @@
 tensorflow
+tensorflow_hub
 streamlit
 transformers
 numpy
