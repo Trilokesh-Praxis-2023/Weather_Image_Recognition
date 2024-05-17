@@ -33,15 +33,18 @@ def main():
 
         # Button for making prediction
         if st.button('Make Prediction'):
-            # Preprocess the image
-            img_array = preprocess_image(image)
+            try:
+                # Preprocess the image
+                img_array = preprocess_image(image)
 
-            # Make prediction
-            st.write("Making prediction...")
-            prediction = model.predict(img_array)
-            predicted_class = classes[np.argmax(prediction)]
+                # Make prediction
+                st.write("Making prediction...")
+                prediction = model.predict(img_array)
+                predicted_class = classes[np.argmax(prediction)]
 
-            st.write("Prediction:", predicted_class)
+                st.write("Prediction:", predicted_class)
+            except Exception as e:
+                st.write(f"Error in making prediction: {e}")
 
     # Add animation using a mathematical function
     st.subheader("Animation using a mathematical function")
@@ -51,3 +54,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
