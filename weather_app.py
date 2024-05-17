@@ -20,8 +20,11 @@ model_config_path = 'model_config.json'
 with open(model_config_path, "r") as json_file:
     model_config = json.load(json_file)
 
+# Convert the dictionary to a JSON string
+model_config_json = json.dumps(model_config)
+
 # Create a new model using the loaded configuration
-model = tf.keras.models.model_from_json(model_config)
+model = tf.keras.models.model_from_json(model_config_json)
 
 # Load the pre-trained weights
 model.load_weights("Trilokesh_Weather_Model.h5")
