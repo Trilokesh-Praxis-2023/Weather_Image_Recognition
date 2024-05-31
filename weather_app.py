@@ -12,7 +12,7 @@ st.markdown(
         background-color: #0000FF; /* Darker shade of blue */
         padding: 20px;
         border-radius: 10px;
-        color: black; /* Text color */
+        color: white; /* Text color */
     }
     .sidebar .sidebar-content {
         background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pbs.org%2Fvideo%2Fdecoding-weather-machine-prologue-duoixu%2F&psig=AOvVaw1WvuLUOPRHZkDwjyFRIhyV&ust=1717232455476000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMDOu8jDt4YDFQAAAAAdAAAAABAJ');
@@ -40,10 +40,12 @@ st.markdown(
         font-size: 24px;
         font-weight: bold;
         margin-bottom: 20px;
+        color: white; /* Text color */
     }
     .subheader {
         font-size: 20px;
         margin-bottom: 10px;
+        color: white; /* Text color */
     }
     .footer {
         text-align: center;
