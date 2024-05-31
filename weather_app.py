@@ -9,10 +9,10 @@ st.markdown(
     """
     <style>
     .main {
-        background-color: #f0f2f6;
+        background-color: #e6f7ff; /* Blue background color */
         padding: 20px;
         border-radius: 10px;
-        color: black; /* Set text color to black */
+        color: black; /* Text color */
     }
     .stButton > button {
         background-color: #4CAF50;
