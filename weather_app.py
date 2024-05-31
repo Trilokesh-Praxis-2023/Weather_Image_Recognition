@@ -61,7 +61,12 @@ classes = ['dew', 'fog/smog', 'frost', 'glaze', 'hail', 'lightning', 'rain', 'ra
 
 # Load the pretrained model from TensorFlow Hub
 model_url = "https://tfhub.dev/google/imagenet/mobilenet_v2_100_224/classification/4"
-model = tf.keras.Sequential([hub.KerasLayer(model_url, input_shape=(224, 224, 3))])
+try:
+    model = tf.keras.Sequential([hub.KerasLayer(model_url, input_shape=(224, 224, 3))])
+    model_loaded = True
+except Exception as e:
+    st.error(f"Error loading model: {e}")
+    model_loaded = False
 
 # Streamlit app
 def main():
@@ -84,19 +89,22 @@ def main():
 
         # Button for making prediction
         if st.button('Make Prediction'):
-            with st.spinner('Making prediction...'):
-                try:
-                    # Preprocess the image
-                    img_array = preprocess_image(image)
+            if model_loaded:
+                with st.spinner('Making prediction...'):
+                    try:
+                        # Preprocess the image
+                        img_array = preprocess_image(image)
 
-                    # Make prediction
-                    prediction = model.predict(img_array)
-                    predicted_class_idx = np.argmax(prediction[0])  # Get the index of the highest probability
-                    predicted_class = classes[predicted_class_idx]
+                        # Make prediction
+                        prediction = model.predict(img_array)
+                        predicted_class_idx = np.argmax(prediction[0])  # Get the index of the highest probability
+                        predicted_class = classes[predicted_class_idx]
 
-                    st.success(f"Prediction: {predicted_class}")
-                except Exception as e:
-                    st.error(f"Error in making prediction: {e}")
+                        st.success(f"Prediction: {predicted_class}")
+                    except Exception as e:
+                        st.error(f"Error in making prediction: {e}")
+            else:
+                st.error("Model could not be loaded. Prediction cannot be made.")
 
     if show_animation:
         st.subheader("Animation using a Mathematical Function")
