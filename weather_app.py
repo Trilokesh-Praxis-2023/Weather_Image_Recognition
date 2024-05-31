@@ -9,12 +9,18 @@ st.markdown(
     """
     <style>
     .main {
+        background-color: #4040FF; /* Darker shade of blue */
+        padding: 20px;
+        border-radius: 10px;
+        color: black; /* Text color */
+    }
+    .sidebar .sidebar-content {
         background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pbs.org%2Fvideo%2Fdecoding-weather-machine-prologue-duoixu%2F&psig=AOvVaw1WvuLUOPRHZkDwjyFRIhyV&ust=1717232455476000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMDOu8jDt4YDFQAAAAAdAAAAABAJ');
         background-size: cover;
         background-repeat: no-repeat;
         padding: 20px;
         border-radius: 10px;
-        color: black; /* Text color */
+        color: white; /* Text color */
     }
     .stButton > button {
         background-color: #4CAF50;
