@@ -4,6 +4,48 @@ import tensorflow as tf
 import tensorflow_hub as hub
 from PIL import Image
 
+# Custom CSS for styling
+st.markdown(
+    """
+    <style>
+    .main {
+        background-color: #f0f2f6;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .stButton > button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+    }
+    .stButton > button:hover {
+        background-color: #45a049;
+    }
+    .header {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    .subheader {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+    .footer {
+        text-align: center;
+        margin-top: 50px;
+        color: #888888;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 # Function to preprocess the image
 def preprocess_image(image):
     img = image.resize((224, 224))  # Resize image to match model's expected sizing
@@ -23,37 +65,46 @@ model = tf.keras.Sequential([hub.KerasLayer(model_url, input_shape=(224, 224, 3)
 
 # Streamlit app
 def main():
+    st.sidebar.title("Weather Image Classifier")
+    st.sidebar.write("This app classifies weather images into various categories.")
+
+    st.sidebar.header("Upload an Image")
+    uploaded_file = st.sidebar.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+
+    st.sidebar.header("Options")
+    show_animation = st.sidebar.checkbox("Show Mathematical Function Animation", value=True)
+
     st.title("Weather Image Classifier")
     st.write("This app classifies weather images into categories: dew, fog/smog, frost, glaze, hail, lightning, rain, rainbow, rime, sandstorm, snow")
-
-    uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
     if uploaded_file is not None:
         # Display the uploaded image
         image = Image.open(uploaded_file)
-        st.image(image, caption='Uploaded Image', use_column_width=True)
+        st.image(image, caption='Uploaded Image', use_column_width=True, clamp=True)
 
         # Button for making prediction
         if st.button('Make Prediction'):
-            try:
-                # Preprocess the image
-                img_array = preprocess_image(image)
+            with st.spinner('Making prediction...'):
+                try:
+                    # Preprocess the image
+                    img_array = preprocess_image(image)
 
-                # Make prediction
-                st.write("Making prediction...")
-                prediction = model.predict(img_array)
-                predicted_class_idx = np.argmax(prediction[0])  # Get the index of the highest probability
-                predicted_class = classes[predicted_class_idx]
+                    # Make prediction
+                    prediction = model.predict(img_array)
+                    predicted_class_idx = np.argmax(prediction[0])  # Get the index of the highest probability
+                    predicted_class = classes[predicted_class_idx]
 
-                st.write("Prediction:", predicted_class)
-            except Exception as e:
-                st.write(f"Error in making prediction: {e}")
+                    st.success(f"Prediction: {predicted_class}")
+                except Exception as e:
+                    st.error(f"Error in making prediction: {e}")
 
-    # Add animation using a mathematical function
-    st.subheader("Animation using a mathematical function")
-    x = np.linspace(0, 10, 100)
-    y = np.sin(x)
-    st.line_chart(np.column_stack((x, y)), use_container_width=True)
+    if show_animation:
+        st.subheader("Animation using a Mathematical Function")
+        x = np.linspace(0, 10, 100)
+        y = np.sin(x)
+        st.line_chart(np.column_stack((x, y)), use_container_width=True)
+
+    st.markdown('<div class="footer">Developed with Streamlit</div>', unsafe_allow_html=True)
 
 if __name__ == '__main__':
     main()
