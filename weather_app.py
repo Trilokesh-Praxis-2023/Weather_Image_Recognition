@@ -9,7 +9,7 @@ st.markdown(
     """
     <style>
     .main {
-        background-color: #6495ED; /* Blue background color */
+        background-color: #6495ED; /* Darker shade of blue */
         padding: 20px;
         border-radius: 10px;
         color: black; /* Text color */
@@ -61,9 +61,9 @@ def preprocess_image(image):
 classes = ['dew', 'fog/smog', 'frost', 'glaze', 'hail', 'lightning', 'rain', 'rainbow', 'rime', 'sandstorm', 'snow']
 
 # Load the pretrained model from TensorFlow Hub
-model_url = "https://tfhub.dev/google/imagenet/mobilenet_v2_100_224/classification/4"
+model_url = "https://tfhub.dev/google/cropnet/classifier/weather_d/2"
 try:
-    model = tf.keras.Sequential([hub.KerasLayer(model_url, input_shape=(224, 224, 3))])
+    model = tf.keras.Sequential([hub.KerasLayer(model_url)])
     model_loaded = True
 except Exception as e:
     st.error(f"Error loading model: {e}")
