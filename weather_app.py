@@ -55,6 +55,10 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+st.markdown("""
+    **Note:** The Language Model (LLM) is not currently working. You may need to deploy it in the cloud to make it operational.
+""")
+
 # Function to preprocess the image
 def preprocess_image(image):
     img = image.resize((224, 224))  # Resize image to match model's expected sizing
