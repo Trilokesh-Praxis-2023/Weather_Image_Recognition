@@ -12,6 +12,7 @@ st.markdown(
         background-color: #f0f2f6;
         padding: 20px;
         border-radius: 10px;
+        color: black; /* Set text color to black */
     }
     .stButton > button {
         background-color: #4CAF50;
